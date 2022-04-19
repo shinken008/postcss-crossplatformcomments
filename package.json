@@ -1,0 +1,26 @@
+{
+  "name": "postcss-crossplatformcomments",
+  "version": "0.1.0",
+  "description": "postcss plugin for cross-platform",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shinken008/postcss-crossplatformcomments.git"
+  },
+  "keywords": [
+    "postcss",
+    "cross-platform"
+  ],
+  "author": "shinken008@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shinken008/postcss-crossplatformcomments/issues"
+  },
+  "homepage": "https://github.com/shinken008/postcss-crossplatformcomments#readme",
+  "dependencies": {
+    "postcss": "8.3.5"
+  }
+}

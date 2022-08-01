@@ -1,12 +1,10 @@
-const postcss = require('postcss')
+module.exports = (options = {}) => {
+  let { platform = [] } = options
+  platform = typeof platform === 'string' ? [platform] : platform
 
-module.exports = postcss.plugin(
-  'postcss-crossplatformcomments',
-  function (options = {}) {
-    let { platform = [] } = options
-    platform = typeof platform === 'string' ? [platform] : platform
-
-    return function (css) {
+  return {
+    postcssPlugin: 'postcss-crossplatformcomments',
+    Once (css) {
       for (let i = 0; i < css.nodes.length; i++) {
         if (css.nodes[i].type === 'comment') {
           if (css.nodes[i].text === 'postcss-pxtransform disable') {
@@ -46,7 +44,6 @@ module.exports = postcss.plugin(
         if (wordList.indexOf('#ifdef') > -1) {
           // 非指定平台
           const target = wordList.find(word => platform.includes(word))
-          // if (wordList.indexOf(options.platform) === -1) {
           if (!target) {
             let next = comment.next()
             while (next) {
@@ -70,7 +67,6 @@ module.exports = postcss.plugin(
         if (wordList.indexOf('#ifndef') > -1) {
           // 指定平台
           const target = wordList.find(word => platform.includes(word))
-          // if (wordList.indexOf(options.platform) > -1) {
           if (target) {
             let next = comment.next()
             while (next) {
@@ -84,6 +80,9 @@ module.exports = postcss.plugin(
           }
         }
       })
+
     }
   }
-)
+}
+
+module.exports.postcss = true

@@ -3,6 +3,9 @@ const postcss = require('postcss')
 module.exports = postcss.plugin(
   'postcss-crossplatformcomments',
   function (options = {}) {
+    let { platform = [] } = options
+    platform = typeof platform === 'string' ? [platform] : platform
+
     return function (css) {
       for (let i = 0; i < css.nodes.length; i++) {
         if (css.nodes[i].type === 'comment') {
@@ -15,7 +18,7 @@ module.exports = postcss.plugin(
       }
 
       // delete code between comment in RN
-      if (options.platform === 'rn') {
+      if (platform.includes('rn')) {
         css.walkComments(comment => {
           if (comment.text === 'postcss-pxtransform rn eject enable') {
             let next = comment.next()
@@ -42,7 +45,9 @@ module.exports = postcss.plugin(
         // 指定平台保留
         if (wordList.indexOf('#ifdef') > -1) {
           // 非指定平台
-          if (wordList.indexOf(options.platform) === -1) {
+          const target = wordList.find(word => platform.includes(word))
+          // if (wordList.indexOf(options.platform) === -1) {
+          if (!target) {
             let next = comment.next()
             while (next) {
               if (next.type === 'comment' && next.text.trim() === '#endif') {
@@ -64,7 +69,9 @@ module.exports = postcss.plugin(
         // 指定平台剔除
         if (wordList.indexOf('#ifndef') > -1) {
           // 指定平台
-          if (wordList.indexOf(options.platform) > -1) {
+          const target = wordList.find(word => platform.includes(word))
+          // if (wordList.indexOf(options.platform) > -1) {
+          if (target) {
             let next = comment.next()
             while (next) {
               if (next.type === 'comment' && next.text.trim() === '#endif') {

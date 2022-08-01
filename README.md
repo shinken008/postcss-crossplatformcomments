@@ -7,6 +7,7 @@ yarn add postcss-crossplatformcomments
 ```
 
 ## Usage
+### taro build
 ```js
 postcss: {
     pxtransform: {
@@ -22,3 +23,16 @@ postcss: {
      
 }
 ```
+
+### postcss plugin
+```js
+postcss([
+    // autoprefixer({
+    //     overrideBrowserslist: 'iOS >= 10, Chrome >= 49'
+    // }),
+    crossplatformcomments({ platform: ['h5'] }) // or platform: 'h5'
+])
+```
+
+## options
+- `platform` can be a string or array. If you want config mutiple platforms then `platform` option must be a array like `platform: ['h5', 'weapp']`.
